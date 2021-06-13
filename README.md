@@ -1,4 +1,4 @@
-# cArea
+# cAreaMaker
 
 Creates cAreas at random within an fArea. Random cArea positions are trialed, which fail upon collision with an existing cArea. To avoid checking every cArea with every other cArea, a grid based nearest neighbour (nn) approach is taken, whereby the whole fArea is divided into grids whose width is twice the radius of the cArea. This means for a given cArea, collisions can only occur with cAreas in the neighbouring cells, so only these cells are tested for collisions. Should the candidate cArea location collide with another cArea, a new candidate position is generated until the maximum number of successive placement attempts is reached. At this point, an optional process is triggered (referred to as the grid sweeper), which moves through all the grid positions randomly, and tries to place a cArea in each until the maximum number of grid sweeper placement attempts is reached (should be set to a lower value than the number of successive placement attempts for the initial placement of cAreas). This process ends if either the target number of cAreas are placed, or the max number of grid sweeper placements per cell is reached for all cells.
 
