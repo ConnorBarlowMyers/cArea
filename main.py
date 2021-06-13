@@ -1,32 +1,14 @@
 import time
 import math
 import random
-#lat ranges from -90 to 90
-#lon ranges from -180 to 180
-
-lon1 = -0.2568223906894063
-lat1 = 51.57109501333098
-lon2 = 0.04943300877719548
-lat2 = 51.44202475087509
 
 #from unit_conv import UnitConversion
 from data_vis import Visualiser
 from gridbased_data_generator import GridBasedCAreaMaker
 
 
-"""
-
-xMin = -0.2568223906894063
-yMin = 51.57109501333098
-xMax = 0.04943300877719548
-yMax = 51.44202475087509
-
-
-"""
 xMin, yMin = 0, 0
 xMax, yMax = 1000, 1000
-
-nCircles = 100
 rCircles = 10
 maxPlacementAttemptsPerCArea = 100
 maxPlacementForGridSweep = 10
