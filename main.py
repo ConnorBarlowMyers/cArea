@@ -1,55 +1,114 @@
 import time
+import math
+import random
+#lat ranges from -90 to 90
+#lon ranges from -180 to 180
 
-from vis import Visualiser
+lon1 = -0.2568223906894063
+lat1 = 51.57109501333098
+lon2 = 0.04943300877719548
+lat2 = 51.44202475087509
 
-
-
-
-#tplon, tplat, btlon, btlat
-
-
-
-xMin, yMin = 0, 0
-
-xMax, yMax = 10, 10
-nCircles = 2
-rCircles = 4
-
-
-from vis import Visualiser
-from data_generator import DataGenerator, DataGeneratorV2
-#vis = Visualiser(data.brute_force_point_allocation(), xMin, xMax, yMin, yMax, rCircles, plotEvery = False)  
-
-
+#from unit_conv import UnitConversion
 from data_vis import Visualiser
 from gridbased_data_generator import GridBasedCAreaMaker
-data = GridBasedCAreaMaker(nCircles, rCircles, xMin, xMax, yMin, yMax)
-Visualiser(data)
+
+
+"""
+
+xMin = -0.2568223906894063
+yMin = 51.57109501333098
+xMax = 0.04943300877719548
+yMax = 51.44202475087509
+
+
+"""
+xMin, yMin = 0, 0
+xMax, yMax = 1000, 1000
+
+nCircles = 100
+rCircles = 10
+maxPlacementAttemptsPerCArea = 100
+maxPlacementForGridSweep = 10
+
+class cAreaMaker:
+    
+    def __init__(self, 
+                 someSats, 
+                 xMin, xMax, yMin, yMax, 
+                 radiusOfEachCircle,
+                 maxPlacementAttemptsPerCArea, 
+                 maxPlacementForGridSweep,
+                 preProcessing = False):
+        
+        if 10 <= someSats < 20:
+            noAreas = 2
+            itemsPArea = 1
+            itemValue = math.floor(someSats / (noAreas * itemsPArea))
+        if 20 <= someSats < 50:
+            noAreas = 4
+            itemsPArea = 2
+            itemValue = math.floor(someSats / (noAreas * itemsPArea))
+        if 50 <= someSats < 100:
+            noAreas = 5
+            itemsPArea = 2
+            itemValue = math.floor(someSats / (noAreas * itemsPArea))
+        if 100 <= someSats < 500:
+            noAreas = 10
+            itemsPArea = 2
+            itemValue = math.floor(someSats / (noAreas * itemsPArea))
+        if 500 <= someSats < 1000:
+            noAreas = 20
+            itemsPArea = 2
+            itemValue = math.floor(someSats / (noAreas * itemsPArea))
+        if 1000 <= someSats < 5000:
+            noAreas = 30
+            itemsPArea = 3
+            itemValue = math.floor(someSats / (noAreas * itemsPArea))
+        if 5000 <= someSats < 10000:
+            noAreas = 40
+            itemsPArea = 3
+            itemValue = math.floor(someSats / (noAreas * itemsPArea))
+        if 10000 <= someSats < 100000:
+            noAreas = 50
+            itemsPArea = random.randint(2, 4)
+            itemValue = math.floor(someSats / (noAreas * itemsPArea))
+        if someSats >= 100000:
+            noAreas = 100
+            itemsPArea = random.randint(2, 6)
+            itemValue = math.floor(someSats / (noAreas * itemsPArea))
+        
+
+        
+        startTime = time.time()
+        self.data = GridBasedCAreaMaker(
+                           noAreas, 
+                           itemsPArea,
+                           itemValue,
+                           radiusOfEachCircle, 
+                           xMin, xMax, 
+                           yMin, yMax, 
+                           maxPlacementAttemptsPerCArea, 
+                           maxPlacementForGridSweep,
+                           dictPreProcessing = preProcessing)
+        endTime = time.time()
+        
+        self.placementTime = (endTime - startTime)
+    
+        self.return_cAreas()
+        
+    def return_cAreas(self):
+        return self.data
+        
+    
+  
+cAreas = cAreaMaker(100001, xMin, xMax, yMin, yMax, rCircles, 
+                    maxPlacementAttemptsPerCArea, maxPlacementForGridSweep)
+
+print("Time taken to generate cArea list: {}".format(cAreas.placementTime))
+Visualiser(cAreas.return_cAreas())
        
         
 
 
 
-
-
-
-
-#time testing, averaging over a number of tests.
-"""
-nTests = 100
-startTime = time.time()
-for i in range(nTests):
-    
-    dummy_data = DataGenerator(nCircles, xMin, xMax, yMin, yMax)
-    vis = Visualiser(dummy_data, xMin, xMax, yMin, yMax, rCircles, plotEvery = True)
-    
-    
-endTime = time.time()
-
-totalTime = (endTime - startTime)/nTests
-
-
-
-
-print("average time for single run: {}".format(totalTime))
-"""

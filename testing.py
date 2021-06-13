@@ -2,9 +2,9 @@ import math
 
 def circleTesting(x1, y1, x2, y2, r):
   
-    radialDist = math.sqrt((x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2))
+    radialDist = (x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2)
     
-    if radialDist < 2*r:
+    if radialDist < 4*r*r:
         #True meaning intersecting
         return True
     

@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from testing import circleTesting
-
+plt.rcParams["figure.figsize"] = (10,10)
 
     
     
@@ -16,7 +16,7 @@ class Visualiser:
         self.xMax = dataObject.xMax
         self.yMin = dataObject.yMin
         self.yMax = dataObject.yMax
-        self.cAreaList = dataObject.outputData
+        self.cAreaList = dataObject.cAreaList
                
         self.xWidth = self.xMax - self.xMin
         self.yWidth = self.yMax - self.yMin
@@ -61,7 +61,7 @@ class Visualiser:
         
         
     def draw_grid(self):
-        lineWidth = 5
+        lineWidth = 0.1
         nXDivs = self.dataObject.nXDivs
         nYDivs = self.dataObject.nYDivs
         
@@ -120,7 +120,7 @@ class Visualiser:
             offset = 0.12
             self.ax.add_patch(circle)
             self.ax.add_patch(innerCircle)
-            self.ax.text(x - offset, y - offset, str(circleNumber), fontsize=20, color="white")
+            #self.ax.text(x - offset, y - offset, str(circleNumber), fontsize=20, color="white")
         
     def show(self):
         self.plot.show()

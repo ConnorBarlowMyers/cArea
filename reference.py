@@ -3,7 +3,8 @@
 # Each cArea will then have a number of items
 # Each item should have a sat value of at least 5 sats
 # If a small rectangle is submitted the function should limit the amount of collection points so they do not overlap
-# The collection points must MOSTLY have a random distance between them, and they must not overlap, so some could be next to each other but most will be apart
+# The collection points must MOSTLY have a random distance between them, and they must not overlap, so some could be
+# next to each other but most will be apart
 
 import math
 import random
