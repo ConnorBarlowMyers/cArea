@@ -1,9 +1,8 @@
 # cArea
 
-Creates cAreas at random within an fArea. Brute force approach and grid based optimisation both tried.
+Creates cAreas at random within an fArea. Random cArea positions are trialed, which fail upon collision with an existing cArea. To avoid checking every cArea with every other cArea, a grid based nearest neighbour (nn) approach is taken, whereby the whole fArea is divided into grids whose width is twice the radius of the cArea. This means for a given cArea, collisions can only occur with cAreas in the neighbouring cells, so only these cells are tested for collisions. Should the candidate cArea location collide with another cArea, a new candidate position is generated until the maximum number of successive placement attempts is reached. At this point, an optional process is triggered (referred to as the grid sweeper), which moves through all the grid positions randomly, and tries to place a cArea in each until the maximum number of grid sweeper placement attempts is reached (should be set to a lower value than the number of successive placement attempts for the initial placement of cAreas). This process ends if either the target number of cAreas are placed, or the max number of grid sweeper placements per cell is reached for all cells.
 
-Things to sort:
+Preprocessing the nn information for every grid cell before the placement of cAreas began became costly when the fArea is large in respect to the radius of the cAreas. For this reason the GridBasedCAreaMaker class is, by defualt, set to calculate the nn indices for grid cells only when the grid cell is selected in the initial random placement of cAreas. This increases the time it takes for each placement attempt, however decreases the overall time it takes for the cAreas to be placed and significantly reduces the memory requirements. It is assumed that there may be conditions underwhich preprocessing the dict may be advantageous, so there is an optional keyword argument passed to the GridBasedCAreaMaker class which can be set to true (dictPreProcessing = True) which would turn on the nn preprocessing.
 
-- Conversion between latlong and m, circle rad defined in m while fArea in LL
-- GridSweeper method getting hung up on lowerleft quadrant
-- Large memory usage for grid-based approach when the fArea gets large.
+Notes:
+- fArea currently defined in metres.
